@@ -10,6 +10,11 @@ This will be entered into the appsettings.json file where the MerakiAPI -> APIKe
 
 Next log into https://console.cloud.google.com/apis/dashboard
 Create a new project called Meraki
+
+Click on Enabled API's and Services
+CLick on Enable APIS and Services
+  Add in Admin SDK Api
+
 Then navigate to the Credentials section
 Click the Create Credential - OAuth Client ID
 Choose Desktop app
