@@ -11,8 +11,7 @@ To run this project you will need to create an API key in Meraki
 - This will be entered into the appsettings.json file where the MerakiAPI -> APIKey key/value field
 
 Next log into [Google Cloud Console](https://console.cloud.google.com/apis/dashboard)
-- Create a new project called Meraki
-
++ Create a new project called Meraki
 + Click on Enabled API's and Services
 + CLick on Enable APIS and Services
   + Add in Admin SDK Api
