@@ -1,6 +1,8 @@
 # UpdateMerakiClientNames
 Create/Update Meraki client names from Google Workspace devices
 
+Renmae the appsettings.json.template to appsettings.json
+
 To run this project you will need to create an API key in Meraki
 
 Login into your Meraki dashboard and access your Meraki profile 
