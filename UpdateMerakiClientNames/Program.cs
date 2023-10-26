@@ -22,8 +22,6 @@ SetupStaticLogger();
 
 Run().Wait();
 
-
-
 async Task Run()
 {
     Log.Information("Beginning device sync to Meraki from Google Workspace");

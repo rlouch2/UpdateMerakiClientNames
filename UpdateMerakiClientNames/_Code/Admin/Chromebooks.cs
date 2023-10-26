@@ -40,6 +40,11 @@ namespace UpdateMerakiClientNames._Code.Admin
 
         //public Chromebooks() { }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <param name="merakiSettings"></param>
         public Chromebooks(UpdateMerakiClientNames.Objects.GoogleAuth settings, MerakiAuth merakiSettings)
         {
 
@@ -54,6 +59,10 @@ namespace UpdateMerakiClientNames._Code.Admin
             });
         }
 
+        /// <summary>
+        /// Gets Chromebooks from Google Admin Console, provisions new clients inside of all Meraki networks
+        /// </summary>
+        /// <returns></returns>
         public async Task UpdateMerakiClientNameAsync()
         {
             ChromeosdevicesResource.ListRequest listRequest = googleDirectoryService.Chromeosdevices.List(CustomerId);
@@ -77,6 +86,11 @@ namespace UpdateMerakiClientNames._Code.Admin
             }
         }
 
+        /// <summary>
+        /// Provision the clients in Mearki networks
+        /// </summary>
+        /// <param name="merakiClients"></param>
+        /// <returns></returns>
         private async Task MoveMerakiClient(List<Objects.Meraki.client> merakiClients)
         {
             using var merakiClient = new MerakiClient(new MerakiClientOptions
@@ -115,6 +129,7 @@ namespace UpdateMerakiClientNames._Code.Admin
             {
                 Log.Information(String.Format("Starting add of 100 clients for network {0}", network.Name));
 
+
                 Meraki.Api.Data.ClientProvisionRequest clientProvisionRequest = new Meraki.Api.Data.ClientProvisionRequest();
                 clientProvisionRequest.Clients = clients;
                 clientProvisionRequest.DevicePolicy = Meraki.Api.Data.DevicePolicy.Normal;
@@ -127,6 +142,11 @@ namespace UpdateMerakiClientNames._Code.Admin
             }
         }
 
+        /// <summary>
+        /// Get the Meraki organization ID for your Meraki install
+        /// </summary>
+        /// <param name="merakiClient"></param>
+        /// <returns></returns>
         private async Task<string> GetMerakiOrgId(MerakiClient merakiClient)
         {
             CancellationToken cancellationToken = new CancellationToken();
@@ -148,6 +168,11 @@ namespace UpdateMerakiClientNames._Code.Admin
             return MerakiOrgId;
         }
 
+        /// <summary>
+        /// Get all of the Meraki networks for your organization
+        /// </summary>
+        /// <param name="merakiClient"></param>
+        /// <returns></returns>
         private async Task<List<Meraki.Api.Data.Network>> GetMerakiNetworks(MerakiClient merakiClient)
         {
             MerakiNetworks = await merakiClient
@@ -159,6 +184,11 @@ namespace UpdateMerakiClientNames._Code.Admin
             return MerakiNetworks;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="allDevices"></param>
+        /// <param name="merakiClients"></param>
         private void LoadDevicesForMeraki(ChromeOsDevices allDevices, List<Objects.Meraki.client> merakiClients)
         {
             foreach (ChromeOsDevice device in allDevices.Chromeosdevices)
@@ -175,7 +205,11 @@ namespace UpdateMerakiClientNames._Code.Admin
         }
 
 
-
+        /// <summary>
+        /// Create the Google credential login 
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <returns></returns>
         async Task<UserCredential> CreateCredential(UpdateMerakiClientNames.Objects.GoogleAuth settings)
         {
             UserCredential credential;
