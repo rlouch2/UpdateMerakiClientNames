@@ -25,7 +25,7 @@
   "GoogleAPI": {
     "CustomerID": "",
     "AppName": "Meraki",
-    "ClientSecretJsonFile": "client_secret.json"
+    "ClientSecretJsonFile": "client_secrets.json"
   },
   "MerakiAPI": {
     "APIKey": ""
