@@ -20,7 +20,7 @@ using Serilog;
 
 SetupStaticLogger();
 
-Run().Wait();
+await Run();
 
 async Task Run()
 {
@@ -36,6 +36,9 @@ async Task Run()
     UpdateMerakiClientNames.Objects.MerakiAuth merakiAuth = config.GetSection("MerakiAPI").Get<UpdateMerakiClientNames.Objects.MerakiAuth>();
 
     Chromebooks chromebooks = new Chromebooks(googleAuth, merakiAuth);
+    chromebooks.MerakiClientName = config.GetSection("MerakiClientName").Value;
+
+
     await chromebooks.UpdateMerakiClientNameAsync();
 }
 
