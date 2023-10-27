@@ -33,6 +33,8 @@ namespace UpdateMerakiClientNames._Code.Admin
 
         private string? MerakiApiKey { get; set; }
 
+        public string MerakiClientName { get; set; }
+
         private List<Meraki.Api.Data.Network> MerakiNetworks { get; set; } = new List<Meraki.Api.Data.Network>();
 
 
@@ -116,6 +118,8 @@ namespace UpdateMerakiClientNames._Code.Admin
 
 
                 Meraki.Api.Data.ClientProvision client = new Meraki.Api.Data.ClientProvision();
+
+
                 client.Name = chromebook.name;
                 client.Mac = Regex.Replace(chromebook.mac, regex, replace);
 
@@ -196,8 +200,9 @@ namespace UpdateMerakiClientNames._Code.Admin
                 if (device.MacAddress != null)
                 {
                     Objects.Meraki.client client = new Objects.Meraki.client();
+
                     client.mac = device.MacAddress;
-                    client.name = device.SerialNumber;
+                    client.name = GetProperty(device, MerakiClientName);
 
                     merakiClients.Add(client);
                 }
@@ -224,5 +229,58 @@ namespace UpdateMerakiClientNames._Code.Admin
 
             return credential;
         }
+
+
+        private string GetProperty(object target, string PropertyName)
+        {
+            int VariableCount = PropertyName.Count(v => v == '{');
+
+            if (VariableCount == 0)
+            {
+                try
+                {
+                    var site = System.Runtime.CompilerServices.CallSite<Func<System.Runtime.CompilerServices.CallSite, object, object>>.Create(Microsoft.CSharp.RuntimeBinder.Binder.GetMember(0, PropertyName, target.GetType(), new[] { Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo.Create(0, null) }));
+                    object val = site.Target(site, target);
+
+                    if (val != null)
+                        return val.ToString();
+                    else
+                        return "";
+                }
+                catch
+                {
+                    return "";
+                }
+            }
+            else
+            {
+                StringBuilder sbProperty = new StringBuilder(PropertyName);
+                int StartingStringLocation = PropertyName.IndexOf('{');
+                int EndingStringLocation = PropertyName.IndexOf('}');
+                int PropertyNameLength = EndingStringLocation - StartingStringLocation;
+                for (int i = 0; i <= VariableCount - 1; i++)
+                {
+                    string subPropertyName = sbProperty.ToString().Substring(StartingStringLocation + 1, PropertyNameLength - 1);
+                    string subPropertyValue = "";
+
+                    var site = System.Runtime.CompilerServices.CallSite<Func<System.Runtime.CompilerServices.CallSite, object, object>>.Create(Microsoft.CSharp.RuntimeBinder.Binder.GetMember(0, subPropertyName, target.GetType(), new[] { Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo.Create(0, null) }));
+                    object val = site.Target(site, target);
+
+                    if (val != null)
+                        subPropertyValue = val.ToString();
+                    else
+                        subPropertyValue = "";
+
+                    sbProperty.Replace("{" + subPropertyName + "}", subPropertyValue);
+
+                    StartingStringLocation = sbProperty.ToString().IndexOf('{');
+                    EndingStringLocation = sbProperty.ToString().IndexOf('}');
+                    PropertyNameLength = EndingStringLocation - StartingStringLocation;
+                }
+
+                return sbProperty.ToString();
+            }
+        }
+
     }
 }
