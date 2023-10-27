@@ -26,4 +26,9 @@ Next log into [Google Cloud Console](https://console.cloud.google.com/apis/dashb
 In the appsettings.json file you will also need to enter in your Google ClientID
 This can be found here [Google ClientID](https://admin.google.com/ac/accountsettings)
 
+You can control what the name of your Meraki Client name is based on the appsettings.json value stored in MerakiClientName
+You can pull in any of the ChromeOS device properties listed out [here](https://developers.google.com/admin-sdk/directory/reference/rest/v1/chromeosdevices)
+Example would get "GD-{SerialNumber}-{AnnotatedAssetId} - this will create a client name like GD-x123c23-1234
+Or "SerialNumber" - this will create a client name like x123c23
+
 At this point you should be ready to run this program. You will need to run from Visual Studio until I get an executable published.
