@@ -22,7 +22,6 @@ SetupStaticLogger();
 
 await Run();
 
-
 async Task Run()
 {
     Log.Information("Beginning device sync to Meraki from Google Workspace");
@@ -37,6 +36,9 @@ async Task Run()
     UpdateMerakiClientNames.Objects.MerakiAuth merakiAuth = config.GetSection("MerakiAPI").Get<UpdateMerakiClientNames.Objects.MerakiAuth>();
 
     Chromebooks chromebooks = new Chromebooks(googleAuth, merakiAuth);
+    chromebooks.MerakiClientName = config.GetSection("MerakiClientName").Value;
+
+
     await chromebooks.UpdateMerakiClientNameAsync();
 }
 
