@@ -121,7 +121,8 @@ namespace UpdateMerakiClientNames._Code.Admin
 
 
                 client.Name = chromebook.name;
-                client.Mac = Regex.Replace(chromebook.mac, regex, replace);
+
+                //client.Mac = Regex.Replace(chromebook.mac, regex, replace);
 
                 Log.Information(String.Format("Adding chromebook Device Name: {0}, MAC: {1}, DeviceID {2}", chromebook.name, client.Mac, chromebook.clientId));
 
@@ -132,6 +133,7 @@ namespace UpdateMerakiClientNames._Code.Admin
             foreach (Meraki.Api.Data.Network network in MerakiNetworks)
             {
                 Log.Information(String.Format("Starting add of 100 clients for network {0}", network.Name));
+
 
 
                 Meraki.Api.Data.ClientProvisionRequest clientProvisionRequest = new Meraki.Api.Data.ClientProvisionRequest();
@@ -185,6 +187,13 @@ namespace UpdateMerakiClientNames._Code.Admin
               .GetOrganizationNetworksAsync(MerakiOrgId)
               .ConfigureAwait(false);
 
+            List<ProductType> productTypes = new List<ProductType>();
+            productTypes.Add(ProductType.Wireless);
+            productTypes.Add(ProductType.Switch);
+
+            List<Network> filteredNetworks = MerakiNetworks.Where(p => p.ProductTypes.Intersect(productTypes).Any()).ToList();
+            MerakiNetworks = filteredNetworks;
+
             return MerakiNetworks;
         }
 
@@ -208,7 +217,6 @@ namespace UpdateMerakiClientNames._Code.Admin
                 }
             }
         }
-
 
         /// <summary>
         /// Create the Google credential login 
