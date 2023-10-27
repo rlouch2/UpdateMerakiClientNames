@@ -22,6 +22,9 @@
       "ApplicationName": "MerakiClientNmes"
     }
   },
+  //You can use any combination of strings and properties of the Google device here
+  //For static strings and properties put the property in an enclosing {} tags
+  "MerakiClientName": "GD-{SerialNumber}-{AnnotatedAssetId}",
   "GoogleAPI": {
     "CustomerID": "",
     "AppName": "Meraki",
