@@ -20,7 +20,8 @@ using Serilog;
 
 SetupStaticLogger();
 
-Run().Wait();
+await Run();
+
 
 async Task Run()
 {
